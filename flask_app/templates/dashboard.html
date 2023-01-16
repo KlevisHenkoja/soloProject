@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrightIdeas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="d-flex justify-content-between bg-info">
+    <h1 class="text-white">Hi {{loggedUser.first_name}}!</h1>
+    <a class="text-white btn btn-danger" href="/logout">Logout</a>
+</div>
+<form class="w-70 m-auto  p-5  d-flex justify-content-center" action="/create_post" method="post">
+    <div class="row">
+        <input type="hidden" name="user_id" value="{{loggedUser.id}}">
+        <div class="col-lg-6">
+           
+            <div class="form-group">
+                <label for="description"></label>
+                <textarea name="description" cols="70" rows="2" placeholder="Say something to share!"></textarea>
+            </div>
+            <div>
+                {% with messages = get_flashed_messages(category_filter=["description"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-danger">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+        </div>
+           
+        </div>    
+            <input class="btn btn-success w-3 p-3 border border-primary " type="submit" value="Post!">
+        
+    </div>
+
+
+</form>
+<tbody>
+    
+    {% for post in allPosts %}
+            <div class="border border-1 m-auto w-75 p-3 bg-light text-dark">
+                <div class="d-flex justify-content-evenly align-items-center">
+                    <div>
+                        <a href="/profile/{{post.creator_id}}">{{post.email}}</a>
+                    </div>
+                    <h4>{{post.description}}</h4>
+                    
+                    <div class="d-flex">
+                        {% if post.id not in userLikedPosts %}
+                        <a class="btn btn-primary mx-2" href="/like/{{post.id}}">Like</a>
+                        {% endif %}
+                        {% if post.id in userLikedPosts %}
+                        <a class="btn btn-danger mx-2" href="/unlike/{{post.id}}">Unlike</a>
+                        {% endif %}
+                        {% if post.creator_id == loggedUser.id  %}
+                        <a class="btn btn-warning mx-2" href="/delete/{{post.id}}">Delete</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+                
+                <p class="text-center">Number of Likes: {{post.likesNr}}</p>
+            </div>
+            {% endfor %}
+        </div>
+</tbody>
+</body>
+</html>

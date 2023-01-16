@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{user.first_name}}'s Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body class=" bg-primary text-white">
+    <div class="d-flex justify-content-between bg-info">
+        <h1 class="text-center text-dark">{{user.first_name}} {{user.last_name}} </h1>
+        <div>
+            <a class="btn btn-primary" href="/">Go Back</a>
+            <a class="text-white btn btn-danger" href="/logout">Logout</a>
+        </div>
+    </div>
+    <h1 class="text-center">All posts of {{ user.first_name }}</h1>
+    {% for post in posts %}
+    <div class="p-5 border border-1 bg-light text-dark w-50 m-auto mt-5 d-flex justify-content-evenly"> 
+        <p>Description: {{post.description}}</p>
+        <p>Created at: {{post.created_at}}</p>
+    </div>
+    {% endfor %}
+</body>
+
+</html>
